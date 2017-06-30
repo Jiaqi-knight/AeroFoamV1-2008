@@ -1,0 +1,3 @@
+AeroFoam.C
+
+EXE = $(FOAM_APPBIN)/AeroFoam

@@ -1,0 +1,344 @@
+#!/bin/sh
+
+#===============================================================================
+# AeroFoam4Speed
+#===============================================================================
+#
+# DESCRIPTION: 
+# A AeroFoam optimized source code file is assembled parsing the AeroFoam standard
+# input parameters, which is then compiled with wmake and run.
+# 
+# REMARKS: 
+# A hard link (to this program must be created in OpenFOAM-X.Y.Z/applications/bin
+# folder with ln. Number of possible parameters is 6. 
+#
+# AUTHORS:
+# Giulio Romanelli, giulio.romanelli@gmail.com
+# Elisa Serioli, elisa.serioli@gmail.com
+# (C) 2007-2008
+#
+# LAST MODIFIED:
+# 27.07.2008
+#
+# Check input parameters
+if [ $# -eq 2 ]; then
+   PROBLEM=$2
+else
+   echo 'ERROR: Check input parameters!'
+fi
+
+#-------------------------------------------------------------------------------
+# *** Set AeroFoam folder ***
+#-------------------------------------------------------------------------------
+
+# Set AeroFoam folder name
+DIR=$HOME'/OpenFOAM/OpenFOAM-1.4.1/applications/solvers/compressible/AeroFoam'
+PROBLEMDIR=`pwd`
+
+#-------------------------------------------------------------------------------
+# *** Read command file ***
+#-------------------------------------------------------------------------------
+
+# Save the content of fvSchemes file into an array (substitute '*' and ';' with ' ')
+declare -a array
+array=(` cat ./$PROBLEM/system/fvSchemes | tr '*' ' ' | tr ';' ' '` )
+dim=${#array[@]}
+
+# Extract fvSchemes commands
+for (( i = 0 ; i < dim ; i++ ))
+do   
+   # timeScheme
+   if [ "${array[i]}" = "timeScheme" ]; then
+      timeScheme=${array[i+1]}
+   fi   
+   # MonoFlux
+   if [ "${array[i]}" = "MonotoneFlux" ]; then
+      MonotoneFlux=${array[i+1]}
+   fi  
+   # HiReFlux
+   if [ "${array[i]}" = "HighResolutionFlux" ]; then
+      HighResolutionFlux=${array[i+1]}
+   fi  
+   # fluxLim
+   if [ "${array[i]}" = "fluxLimiter" ]; then
+      fluxLimiter=${array[i+1]}
+   fi 
+   # entropyFix
+   if [ "${array[i]}" = "entropyFix" ]; then
+      entropyFix=${array[i+1]}
+   fi
+   # residualNorm
+   if [ "${array[i]}" = "residualNorm" ]; then
+      residualNorm=${array[i+1]}
+   fi
+   # testInput
+   if [ "${array[i]}" = "testInput" ]; then
+      testInput=${array[i+1]}
+   fi
+   # testMesh
+   if [ "${array[i]}" = "testMesh" ]; then
+      testMesh=${array[i+1]}
+   fi
+   # writeResidual
+   if [ "${array[i]}" = "writeResidual" ]; then
+      writeResidual=${array[i+1]}
+   fi
+   # toolBox
+   if [ "${array[i]}" = "toolBox" ]; then
+      toolBox=${array[i+1]}
+   fi
+done
+
+# Check fvSchemes commands
+echo ''
+printf %b "\E[34;472m\033[1mChecking input parameters and attributes..\n\033[0m"; tput sgr0
+echo 'timeScheme   = ' $timeScheme
+echo 'MonotoneFlux = ' $MonotoneFlux
+echo 'HighResFlux  = ' $HighResolutionFlux
+echo 'fluxLimiter  = ' $fluxLimiter
+echo 'entropyFix   = ' $entropyFix
+echo 'residualNorm = ' $residualNorm
+echo 'testInput    = ' $testInput
+echo 'testMesh     = ' $testMesh
+echo 'writeResidual= ' $writeResidual
+echo 'toolBox      = ' $toolBox
+echo 'Is everything OK?'
+read
+
+#-------------------------------------------------------------------------------
+# *** Initialize Parameters and Attributes ***
+#-------------------------------------------------------------------------------
+
+# Parameters and attributes
+Parameters[0]="timeScheme"
+Attributes[0]="$timeScheme"
+
+Parameters[1]="residualNorm"
+Attributes[1]="$residualNorm"
+
+Parameters[2]="MonotoneFlux"
+Attributes[2]="$MonotoneFlux"
+
+Parameters[3]="HighResolutionFlux"
+Attributes[3]="$HighResolutionFlux"
+
+Parameters[4]="fluxLimiter"
+Attributes[4]="$fluxLimiter"
+
+Parameters[5]="entropyFix"
+Attributes[5]="$entropyFix"
+
+Parameters[6]="writeResidual"
+Attributes[6]="$writeResidual"
+
+Parameters[7]="toolBox"
+Attributes[7]="$toolBox"
+
+# REMARK: The other input parameters are numerical values
+
+# Programing language (C++)
+STARTCOMM="//IF{"
+STOPCOMM="//FI}" 
+COMM="//COMM"
+FORMAT="AeroFoam.C"
+#FORMAT="*.C"
+LANGUAGE="C++" 
+
+#-------------------------------------------------------------------------------
+# *** Call BuildSourceCode and compile optimized source code ***
+#-------------------------------------------------------------------------------
+
+#===============================================================================
+# FINDPARAMETERS
+#===============================================================================
+function findParameters()
+{
+   tofind=$1
+   dim=${#Parameters[@]}
+   found=-1
+   for (( i = 0 ; i < dim ; i++ ))
+   do
+      if [ "${Parameters[i]}" = "$tofind" ]; then
+         found=$i
+      fi
+   done
+   echo $found
+}
+
+#===============================================================================
+# FINDATTRIBUTES
+#===============================================================================
+function findAttributes()
+{
+   tofind=$1
+   dim=${#Attributes[@]}
+   found=-1
+   for (( i = 0 ; i < dim ; i++ ))
+   do
+      if [ "${Attributes[i]}" = "$tofind" ]; then
+         found=$i
+      fi
+   done
+   echo $found
+}
+
+#===============================================================================
+# TIC
+#===============================================================================
+function tic()
+{
+   time1_=`date +%s`
+}
+
+#===============================================================================
+# TOC
+#===============================================================================
+function toc()
+{
+   time2_=`date +%s`
+   echo `expr $time2_ - $time1_`
+}
+
+#===============================================================================
+# MAIN 
+#===============================================================================
+
+# Create backup folder 
+DATE=`date +%d%m%Y%H%M%S`
+BACKUP=$DIR/"BUP$DATE"
+printf %b "Creating BUP$DATE folder...\n"
+#echo "Creating Backup$DATE source code..." # If colorizing escape characters do not wor
+mkdir -p "$BACKUP"
+
+# Loop on all files of format $FORMAT
+NOW=`pwd`
+cd $DIR
+FilesArray=(` ls $FORMAT `)
+cd $NOW
+NFiles=${#FilesArray[@]}
+for (( k = 0 ; k < NFiles ; k++ ))
+do   
+   tic
+   FILENAME=${FilesArray[k]}
+   # Make a backup 
+   OUTFILE=$DIR/$FILENAME
+   cp $OUTFILE $BACKUP
+   printf %b "\E[34;472m\033[1m`expr $k + 1`/$NFiles) Optimizing $FILENAME source code...\n\033[0m"; tput sgr0
+   #echo "Optimizing $FILENAME source code..." # If colorizing escape characters do not work
+   # Create output file parsing input commands
+   FILE=$BACKUP/$FILENAME
+   printf "" > $OUTFILE
+   IFS=
+   {
+   while read -r line
+   do   
+      comm=`echo "$line" | awk '{print $1}'`
+      par=`echo "$line" | awk '{print $2}'`
+      val=`echo "$line" | awk '{print $3}'`
+      # Optional parameters to manage nested if blocks [add if necessary default 6]
+      valoptA=`echo "$line" | awk '{print $4}'`
+      valoptB=`echo "$line" | awk '{print $5}'`
+      valoptC=`echo "$line" | awk '{print $6}'`
+      valoptD=`echo "$line" | awk '{print $7}'`
+      valoptE=`echo "$line" | awk '{print $8}'`
+      valoptF=`echo "$line" | awk '{print $9}'`
+      if [ "$comm" = "$STARTCOMM" ]; then
+         # Optimize section
+         echo "$line" >> $OUTFILE
+         testPar=`findParameters "$par"`
+         testVal=`findAttributes "$val"`   
+         # Optional parameters to manage nested if blocks [add if necessary default 6]
+         testValoptA=`findAttributes "$valoptA"` 
+         testValoptB=`findAttributes "$valoptB"` 
+         testValoptC=`findAttributes "$valoptC"`
+         testValoptD=`findAttributes "$valoptD"`
+         testValoptE=`findAttributes "$valoptE"`
+         testValoptF=`findAttributes "$valoptF"`
+         if [[ $testPar != $testVal ]]; then
+            if [[ $testPar == $testValoptA ]]; then
+               testVal=$testValoptA
+               val=$valoptA
+            elif [[ $testPar == $testValoptB ]]; then
+               testVal=$testValoptB
+               val=$valoptB
+            elif [[ $testPar == $testValoptC ]]; then
+               testVal=$testValoptC
+               val=$valoptC
+            elif [[ $testPar == $testValoptD ]]; then
+               testVal=$testValoptD
+               val=$valoptD
+            elif [[ $testPar == $testValoptE ]]; then
+               testVal=$testValoptE
+               val=$valoptE
+            elif [[ $testPar == $testValoptF ]]; then
+               testVal=$testValoptF
+               val=$valoptF
+            fi
+         fi
+         if [[ $testPar == $testVal ]]; then
+            if [[ $testPar > -1 ]]; then
+               # Comment only first line after command (to jump if statements for example)
+               printf %b "\E[32;472m\033[4mOptimizing lines for $par = $val...\n\033[0m"; tput sgr0
+               #echo "Optimizing lines for $par = $val..." # If colorizing escape characters do not work
+               read -r line
+               echo "$COMM" "$line" >> $OUTFILE
+            fi   
+         else
+            # Comment section
+            printf %b "\E[31;472mCommenting lines for $par = $val...\n"; tput sgr0
+            #echo "Commenting lines for $par = $val..." # If colorizing escape characters do not work
+            read -r line
+            comm=`echo "$line" | awk '{print $1}'`
+            lineEND="$STOPCOMM $par $val $valoptA  $valoptB  $valoptC  $valoptD  $valoptE  $valoptF"
+            while [ "$comm $par $val $valoptA  $valoptB  $valoptC  $valoptD  $valoptE  $valoptF" != "$lineEND" ] 
+            do 
+               echo "$COMM" "$line" >> $OUTFILE
+               read -r line
+               comm=`echo "$line" | awk '{print $1}'`
+               par=`echo "$line" | awk '{print $2}'`
+               val=`echo "$line" | awk '{print $3}'`
+               # Optional parameters to manage nested if blocks [add if necessary default 6]
+               valoptA=`echo "$line" | awk '{print $4}'`
+               valoptB=`echo "$line" | awk '{print $5}'`
+               valoptC=`echo "$line" | awk '{print $6}'`
+               valoptD=`echo "$line" | awk '{print $7}'`
+               valoptE=`echo "$line" | awk '{print $8}'`
+               valoptF=`echo "$line" | awk '{print $9}'`
+            done
+            echo "$line" >> $OUTFILE
+         fi
+      else
+         # Comment first line after $STOPCOMM command (to manage FORTRAN END IF)
+         # ?????????? also for C, C++ ??????????
+         if [ "$comm" = "$STOPCOMM" ]; then
+            if [ "$LANGUAGE" = "FORTRAN" ]; then
+               echo "$line" >> $OUTFILE 
+               read -r line
+               echo "$COMM" "$line" >> $OUTFILE
+            else
+               echo "$line" >> $OUTFILE   
+            fi   
+         else
+            echo "$line" >> $OUTFILE   
+         fi
+      fi
+   done 
+   } < $FILE
+   printf %b "Done in `toc` s\n"
+done
+
+# Compilation
+NOW=`pwd`
+cd $DIR
+wmake
+cd $NOW
+
+# Copy backup files and remove BUPXXYYZZZZaabbcc
+NOW=`pwd`
+cd $DIR
+cp ./Backup/* . 
+rm -rf "BUP$DATE"
+cd $NOW
+
+# Call AeroFoam
+AeroFoam . "$PROBLEM"

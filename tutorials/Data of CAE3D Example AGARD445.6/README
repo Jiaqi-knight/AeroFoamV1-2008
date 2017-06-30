@@ -1,0 +1,6 @@
+=======================================================
+EXAMPLE DATA FOR CAE3D AEROELASTIC ANALYSIS: AGARD445.6
+=======================================================
+Those modal shapes are to be considered dimensionless and are normalized so that
+in kg-m-s units the modal mass matrix corresponds to the identity matrix.
+TODO: Comparsion with modal shapes computed by Code_Aster

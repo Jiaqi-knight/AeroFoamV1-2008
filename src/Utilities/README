@@ -1,0 +1,10 @@
+================================================================================
+Plotting utility programs
+================================================================================
+To plot runtime statistics the user can use a bunch of GNUplot-Python scripts.
+The corresponding folder must be copied as is in the same directory of the test 
+case where Log Data and Fig folders mst also be present.
+Compatibility issues: GNUplot 4.0 and 4.2 versions.
+
+To plot in paraFoam the structural deformation of an aero-elastic wing the user
+can use the post-processing utility showDisplacement which moves the mesh.

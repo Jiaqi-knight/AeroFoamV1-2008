@@ -1,0 +1,3 @@
+showDisplacement.C
+
+EXE = $(FOAM_APPBIN)/showDisplacement
