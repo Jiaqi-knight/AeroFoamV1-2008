@@ -25,8 +25,8 @@ else
 }
 
 // Create id_RR = (j + 2) and id_LL = (j - 1) lists ( see Jameson )
-labelField id_LL_i( mesh.allFaces().size(), 0 );
-labelField id_RR_i( mesh.allFaces().size(), 0 ); 
+labelField id_LL_i( mesh.faces().size(), 0 );
+labelField id_RR_i( mesh.faces().size(), 0 ); 
 
 //------------------------------------------------------------------------------
 // *** Loop on internal faces ***
@@ -96,7 +96,7 @@ Info << "----------------------------------------" << nl;
 // *** Loop on boundary faces ***
 //------------------------------------------------------------------------------
 Info << "Loop on Boundary Faces..." << nl;
-id_adv = ( mesh.allFaces().size() - mesh.Sf().size() - 1 )/10;
+id_adv = ( mesh.faces().size() - mesh.Sf().size() - 1 )/10;
 forAll( mesh.boundaryMesh(), iPatch )
 {
     forAll( mesh.boundaryMesh()[iPatch].faceAreas(), ii )
@@ -139,8 +139,8 @@ forAll( mesh.boundaryMesh(), iPatch )
         // Wait bar
         if ( ( i - mesh.Sf().size() ) >= id_adv )
         {
-            printf("%3.0f %% \n", ( i - mesh.Sf().size() - 1 )*100.0/( mesh.allFaces().size() - mesh.Sf().size() - 1 ) );
-            id_adv = id_adv + ( mesh.allFaces().size() - mesh.Sf().size() )/10;
+            printf("%3.0f %% \n", ( i - mesh.Sf().size() - 1 )*100.0/( mesh.faces().size() - mesh.Sf().size() - 1 ) );
+            id_adv = id_adv + ( mesh.faces().size() - mesh.Sf().size() )/10;
         }   
         
     }
@@ -193,8 +193,8 @@ if ( ( load_conn == -1 ) || ( load_conn == 2 ) )
     forAll( id_LL_i, i )
     {
         // Input 
-        id_L  = mesh.allOwner()[i];
-        id_R  = mesh.allNeighbour()[i]; 
+        id_L  = mesh.faceOwner()[i];
+        id_R  = mesh.faceNeighbour()[i]; 
         id_LL = id_LL_i[i];
         id_RR = id_RR_i[i];
         fprintf( ff, "%i %i %i %i\n", id_L+1, id_LL+1, id_R+1, id_RR+1 );
@@ -226,8 +226,8 @@ if ( test_conn > 0 )
     forAll( id_LL_i, i )
     {
         // Input 
-        id_L  = mesh.allOwner()[i];
-        id_R  = mesh.allNeighbour()[i]; 
+        id_L  = mesh.faceOwner()[i];
+        id_R  = mesh.faceNeighbour()[i]; 
         id_LL = id_LL_i[i];
         id_RR = id_RR_i[i];
         

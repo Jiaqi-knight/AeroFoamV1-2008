@@ -286,9 +286,9 @@ int CAE2DsetTranspirationVelocityBCs( fvMesh *mesh, label id_bodyPatch, volVecto
             // REMARK: nn0, nn vectors point outside the body
             // Warning: in OpenFOAM nn points outside the computational domain
             // 1) Classical transpiration boundary condition
-            (*U).boundaryField()[id_bodyPatch][ii].x() = -(*VVbn)[ii];
+            (*U).boundaryFieldRef()[id_bodyPatch][ii].x() = -(*VVbn)[ii];
             // 2) Modified transpiration boundary condition (with deformed normal vector)
-            //(*U).boundaryField()[id_bodyPatch][ii] = (*VVbn)[ii]*(*nn)[ii];
+            //(*U).boundaryFieldRef()[id_bodyPatch][ii] = (*VVbn)[ii]*(*nn)[ii];
         } 
     }
      
@@ -380,7 +380,7 @@ int CAE2DupdateCellDisplacement( label id_bodyPatch, volVectorField *cellDisplac
     // Update cellDisplacement for later plot deformed mesh with showDisplacement and paraFoam
     forAll( (*uu), ii )
     {
-        (*cellDisplacement).boundaryField()[id_bodyPatch][ii] = (*uu)[ii];  
+        (*cellDisplacement).boundaryFieldRef()[id_bodyPatch][ii] = (*uu)[ii];  
     }
 
     // Return

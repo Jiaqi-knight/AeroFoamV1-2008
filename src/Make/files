@@ -1,3 +1,3 @@
 AeroFoam.C
 
-EXE = $(FOAM_APPBIN)/AeroFoam
+EXE = $(FOAM_USER_APPBIN)/AeroFoam

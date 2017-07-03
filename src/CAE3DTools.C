@@ -52,7 +52,7 @@ int CAE3DreadStructralMesh( vectorField *xx_s_v, labelField *id_A_s, labelField 
 //                        *** READSTRUCTURALMODES ***                         //
 //                                                                            //
 //============================================================================//
-int CAE3DreadStructuralModes( label N_s_v, label Nmodes, Matrix<scalar> *UUx_s, Matrix<scalar> *UUy_s, Matrix<scalar> *UUz_s, 
+int CAE3DreadStructuralModes( label N_s_v, label Nmodes, Matrix<SquareMatrix<scalar>,scalar> *UUx_s, Matrix<SquareMatrix<scalar>,scalar> *UUy_s, Matrix<SquareMatrix<scalar>,scalar> *UUz_s, 
                                                          scalarField *ff_s, scalarField *mm_s, scalarField *cc_s )
 {
     // Variables definition
@@ -437,7 +437,7 @@ int CAE3DbuildA2S( fvMesh *mesh, label ia, vectorField *xx_s_v, labelField *id_A
 //                                                                            //
 //============================================================================//
 int CAE3DbuildTas( labelField *id_A_s, labelField *id_B_s, labelField *id_C_s, labelField *id_a2s, 
-                   vectorField *xx_s_v, vectorField *xx_a, Matrix<scalar> *Tas )
+                   vectorField *xx_s_v, vectorField *xx_a, Matrix<SquareMatrix<scalar>,scalar> *Tas )
 {
     // Variables definition
     label is, iA_s, iB_s, iC_s;
@@ -582,7 +582,7 @@ int CAE3DcomputeR_a( scalar qoo_a, scalarField *SS_a, vectorField *nn_a, scalarF
 //                           *** COMPUTE_R_S_V ***                            //
 //                                                                            //
 //============================================================================//
-int CAE3DcomputeR_s_v( Matrix<scalar> *Tas, vectorField *RR_a, vectorField *RR_s_v )
+int CAE3DcomputeR_s_v( Matrix<SquareMatrix<scalar>,scalar> *Tas, vectorField *RR_a, vectorField *RR_s_v )
 {   
     // Variables definition
     label ia, is, Na, Ns;
@@ -610,7 +610,7 @@ int CAE3DcomputeR_s_v( Matrix<scalar> *Tas, vectorField *RR_a, vectorField *RR_s
 //                             *** COMPUTE_Q_S ***                            //
 //                                                                            //
 //============================================================================//
-int CAE3DcomputeQ_s( Matrix<scalar> *UUx_s, Matrix<scalar> *UUy_s, Matrix<scalar> *UUz_s, vectorField *RR_s_v, scalarField *QQ_s )
+int CAE3DcomputeQ_s( Matrix<SquareMatrix<scalar>,scalar> *UUx_s, Matrix<SquareMatrix<scalar>,scalar> *UUy_s, Matrix<SquareMatrix<scalar>,scalar> *UUz_s, vectorField *RR_s_v, scalarField *QQ_s )
 {
     // Variables definition
     label im, is, Nm, Ns;
@@ -718,7 +718,7 @@ int CAE3DcomputeNn_a( labelField *id_a2s, labelField *id_A_s, labelField *id_B_s
 //                           *** COMPUTE_UU_S_V ***                           //
 //                                                                            //
 //============================================================================//
-int CAE3DcomputeUu_s_v( Matrix<scalar> *UUx_s, Matrix<scalar> *UUy_s, Matrix<scalar> *UUz_s, scalarField *qq_s, vectorField *uu_s_v )
+int CAE3DcomputeUu_s_v( Matrix<SquareMatrix<scalar>,scalar> *UUx_s, Matrix<SquareMatrix<scalar>,scalar> *UUy_s, Matrix<SquareMatrix<scalar>,scalar> *UUz_s, scalarField *qq_s, vectorField *uu_s_v )
 {
     // Variables definition
     label im, is, Nm, Ns;
@@ -747,7 +747,7 @@ int CAE3DcomputeUu_s_v( Matrix<scalar> *UUx_s, Matrix<scalar> *UUy_s, Matrix<sca
 //                            *** COMPUTE_UU_A ***                            //
 //                                                                            //
 //============================================================================//
-int CAE3DcomputeUu_a( Matrix<scalar> *Tas, vectorField *uu_s_v, vectorField *uu_a )
+int CAE3DcomputeUu_a( Matrix<SquareMatrix<scalar>,scalar> *Tas, vectorField *uu_s_v, vectorField *uu_a )
 {
     // Variables definition
     label ia, is, Na, Ns;
@@ -774,7 +774,7 @@ int CAE3DcomputeUu_a( Matrix<scalar> *Tas, vectorField *uu_s_v, vectorField *uu_
 //                        *** FORCEDMODALMOTIONPARAM ***                      //
 //                                                                            //
 //============================================================================//
-int CAE3DforcedModalMotionParam( Matrix<scalar> *UUx_s, Matrix<scalar> *UUy_s, Matrix<scalar> *UUz_s, 
+int CAE3DforcedModalMotionParam( Matrix<SquareMatrix<scalar>,scalar> *UUx_s, Matrix<SquareMatrix<scalar>,scalar> *UUy_s, Matrix<SquareMatrix<scalar>,scalar> *UUz_s, 
                                  label NactiveMode, scalar kMax, scalar Uoo_a, scalar Lref_a, scalar epsilon, 
                                  scalar *UUMax, scalar *tauMax, scalar *qMax )
 {
@@ -890,9 +890,9 @@ int CAE3DsetTranspirationVelocityBCs( fvMesh *mesh, label id_bodyPatch, volVecto
             // REMARK: nn0, nn vectors point outside the body
             // Warning: in OpenFOAM nn points outside the computational domain
             // 1) Classical transpiration boundary condition
-            (*U).boundaryField()[id_bodyPatch][ii].x() = -(*VVbn_a)[ii];
+            (*U).boundaryFieldRef()[id_bodyPatch][ii].x() = -(*VVbn_a)[ii];
             // 2) Modified transpiration boundary condition (with deformed noraml vector)
-            //(*U).boundaryField()[id_bodyPatch][ii] = (*VVbn_a)[ii]*(*nn_a)[ii]; 
+            //(*U).boundaryFieldRef()[id_bodyPatch][ii] = (*VVbn_a)[ii]*(*nn_a)[ii]; 
         } 
     }
      
@@ -1083,7 +1083,7 @@ int CAE3DupdateCellDisplacement( label id_bodyPatch, volVectorField *cellDisplac
     // Update
     forAll( (*uu_a), ii )
     {
-        (*cellDisplacement).boundaryField()[id_bodyPatch][ii] = (*uu_a)[ii];    
+        (*cellDisplacement).boundaryFieldRef()[id_bodyPatch][ii] = (*uu_a)[ii];    
     }
     
     // Return

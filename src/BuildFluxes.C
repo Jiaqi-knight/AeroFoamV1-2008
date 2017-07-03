@@ -697,9 +697,9 @@ int build_fluxes( scalarField *localDt,
                 //FI} flowType NS RANS
                            
                 // Output            
-                (*FFrho).boundaryField()[iPatch][ii]      = Frho_;
-                (*FFm).boundaryField()[iPatch][ii]        = Fm_;
-                (*FFet_tilde).boundaryField()[iPatch][ii] = Fet_tilde_;
+                (*FFrho).boundaryFieldRef()[iPatch][ii]      = Frho_;
+                (*FFm).boundaryFieldRef()[iPatch][ii]        = Fm_;
+                (*FFet_tilde).boundaryFieldRef()[iPatch][ii] = Fet_tilde_;
             
             }
             
