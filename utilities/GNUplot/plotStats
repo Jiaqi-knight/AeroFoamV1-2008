@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]; then # `$#` denotes number of input
+todo="residual"
+else
+todo=$1
+fi
+
+# modification here: get the dirname of the script.
+# Not where it is invoked
+DIR=`dirname $0`
+if [ $todo = "residual" ]; then
+gnuplot $DIR/convergence.plt
+fi
+if [ $todo = "2D" ]; then
+gnuplot $DIR/loads2D.plt 2&> /dev/null	
+gnuplot $DIR/movement2D.plt 2&> /dev/null
+python $DIR/xCp2D.py
+fi
+if [ $todo = "3D" ]; then
+gnuplot $DIR/loads3D.plt 2&> /dev/null
+gnuplot $DIR/modal3D.plt 2&> /dev/null
+echo "Press return to export current image into deform3D.eps file..."
+python $DIR/xyCp3D.py
+fi

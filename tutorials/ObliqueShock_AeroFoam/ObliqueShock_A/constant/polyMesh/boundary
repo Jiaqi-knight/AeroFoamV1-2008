@@ -1,0 +1,68 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.4.1                                 |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version 2.0;
+    format ascii;
+
+    root "/home/elisa/TESI/VALIDAZIONE/SHOCK";
+    case "TEST_SonicFoam";
+    instance "constant";
+    local "polyMesh";
+
+    class polyBoundaryMesh;
+    object boundary;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+5
+(
+inlet
+{
+    type patch;
+    physicalType supersonicInlet;
+    nFaces 10;
+    startFace 750;
+}
+
+outlet
+{
+    type patch;
+    physicalType extrapolatedOutlet;
+    nFaces 10;
+    startFace 760;
+}
+
+bottom
+{
+    type symmetryPlane;
+    physicalType symmetryPlane;
+    nFaces 40;
+    startFace 770;
+}
+
+top
+{
+    type patch;
+    physicalType supersonicInlet;
+    nFaces 40;
+    startFace 810;
+}
+
+defaultFaces
+{
+    type empty;
+    physicalType empty;
+    nFaces 800;
+    startFace 850;
+}
+)
+
+// ************************************************************************* //

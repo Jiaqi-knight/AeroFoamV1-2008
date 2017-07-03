@@ -1,0 +1,112 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.1                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : 4.1
+Exec   : /home/di/OpenFOAM/di-4.1/platforms/linux64GccDPInt32Opt/bin/AeroFoam
+Date   : Jul 03 2017
+Time   : 22:37:05
+Host   : "ubuntu"
+PID    : 24562
+Case   : /home/di/OpenFOAM/di-4.1/solvers/AeroFoamV1-2008/tutorials/ObliqueShock_AeroFoam/ObliqueShock_C
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+// using new solver syntax:
+cellDisplacement
+{
+    solver          PCG;
+    preconditioner  DIC;
+    tolerance       1e-08;
+    relTol          0;
+}
+
+========================================
+ Reading Thermodynamic Properties...
+========================================
+ gamma  [-] = 1.4
+ Pr     [-] = 0.72
+ R  [J/KgK] = 287.05
+ Cp [J/KgK] = 717.625
+ Cv [J/KgK] = 1004.67
+----------------------------------------
+
+========================================
+ Reading Initial Conditions...
+========================================
+ Reading field p
+ Reading field T
+ Reading field U
+----------------------------------------
+ Creating conservative variables at t^(k)
+ Creating conservative variables at t^(k-1)
+ Creating conservative variables at t^(k-2)
+ Creating conservative variables fluxes at t^(k)
+ Creating primitive variables gradient fields (optional)
+----------------------------------------
+
+========================================
+ Creating Mesh Connectivity...
+========================================
+Using adaptive algorithm...
+Loop on Internal Faces...
+ 10 % 
+ 20 % 
+ 30 % 
+ 40 % 
+ 50 % 
+ 60 % 
+ 70 % 
+ 80 % 
+ 90 % 
+----------------------------------------
+Loop on Boundary Faces...
+----------------------------------------
+
+========================================
+ Mesh 
+========================================
+ # of Faces    =  12600
+ # of Cells    =  6400
+ # of BndPatch =  5
+ 0) supersonicInlet @ inlet
+ 1) extrapolatedOutlet @ outlet
+ 2) symmetryPlane @ bottom
+ 3) supersonicInlet @ top
+ 4) empty @ defaultFaces
+----------------------------------------
+
+========================================
+ Numerical Scheme 
+========================================
+ flowType      =  Euler
+ timeScheme    =  RK2
+ CourantMax    =  0
+ CourantSteps  =  25
+ MonotoneFlux  =  Roe
+ HighResFlux   =  LW
+ fluxLimiter   =  VL
+ entropyFix    =  HH2
+ extrapolateBC =  1
+ residualNorm  =  L1
+ minResidual   =  -1
+----------------------------------------
+ Does everything look fine? [y] to continue [n] otherwise 
+ Starting time loop...
+#0  Foam::error::printStack(Foam::Ostream&) at ??:?
+#1  Foam::sigSegv::sigHandler(int) at ??:?
+#2  ? in "/lib/x86_64-linux-gnu/libc.so.6"
+#3  ? at /opt/openfoam4/src/OpenFOAM/lnInclude/ops.H:166 (discriminator 1)
+#4  ? at ~/OpenFOAM/di-4.1/solvers/AeroFoamV1-2008/src/AeroFoam.C:384
+#5  __libc_start_main in "/lib/x86_64-linux-gnu/libc.so.6"
+#6  ? at ??:?
