@@ -129,7 +129,7 @@ argList::validOptions.insert("amp", "amp");
         {
             forAll( cellDisplacement.boundaryField()[iPatch], ii )
             {
-                cellDisplacement.boundaryField()[iPatch][ii] = cellDisplacement.boundaryField()[iPatch][ii]*ampFactor;
+                cellDisplacement.boundaryFieldRef()[iPatch][ii] = cellDisplacement.boundaryField()[iPatch][ii]*ampFactor;
             }    
         }
         Displacement.write();
