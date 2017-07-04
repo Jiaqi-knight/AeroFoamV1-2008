@@ -198,7 +198,7 @@ int build_fluxes( scalarField *localDt,
         {
             forAll( (*mesh).boundaryMesh()[iPatch].faceAreas(), ii )
             {
-                i = (*mesh).boundaryMesh()[iPatch].whichFace(ii);
+                i = (*mesh).boundaryMesh()[iPatch].start()+ii;
                 faceS   = mag((*mesh).boundaryMesh()[iPatch].faceAreas()[ii]);
                 patchS  = patchS  + faceS;
                 patchCG = patchCG + faceS*(*mesh).Cf()[i];
@@ -219,7 +219,7 @@ int build_fluxes( scalarField *localDt,
                 // Input
                 id_L        = (*mesh).boundaryMesh()[iPatch].faceCells()[ii];    
                 id_R        = id_L;          
-                i           = (*mesh).boundaryMesh()[iPatch].whichFace(ii);
+                i           = (*mesh).boundaryMesh()[iPatch].start()+ii;
                 rho_L_      = (*rrho)[id_L];  
                 m_L_        = (*mm)[id_L];
                 et_tilde_L_ = (*eet_tilde)[id_L];

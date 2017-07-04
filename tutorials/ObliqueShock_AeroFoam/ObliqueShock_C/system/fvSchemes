@@ -42,8 +42,8 @@ AeroFoamSchemes
     residualNorm         L1;  
     minResidual          -1;
 //..............................Extended cells connectivity
-    loadConnectivity     0;
-    adaptiveConnectivity 1;
+    loadConnectivity     -1;
+    adaptiveConnectivity 0;
     testMesh             0;
 //..............................Check for errors
     testInput            1;

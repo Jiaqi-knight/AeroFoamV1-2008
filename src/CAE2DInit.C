@@ -246,7 +246,7 @@ forAll( mesh.boundaryMesh(), iPatch )
         {
             // Local to Global index and arrays initialization  
             id_L = mesh.boundaryMesh()[iPatch].faceCells()[ii];       
-            i    = mesh.boundaryMesh()[iPatch].whichFace(ii);
+            i    = mesh.boundaryMesh()[iPatch].start()+ii;
             id_bodyFace[ii] = i;
             id_bodyCell[ii] = id_L;
             xx[ii]   = mesh.Cf()[i];

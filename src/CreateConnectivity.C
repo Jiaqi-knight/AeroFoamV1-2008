@@ -104,7 +104,7 @@ forAll( mesh.boundaryMesh(), iPatch )
         
         // Input
         id_L = mesh.boundaryMesh()[iPatch].faceCells()[ii];           
-        i    = mesh.boundaryMesh()[iPatch].whichFace(ii);
+        i    = mesh.boundaryMesh()[iPatch].start()+ii;
                  
         // *** ADAPTIVE VERSION *** ( works better with quad/hexa cells )
         if ( adaptiveConnectivitySearch == 1 )

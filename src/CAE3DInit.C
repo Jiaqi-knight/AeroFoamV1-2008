@@ -211,7 +211,7 @@ forAll( mesh.boundaryMesh(), iPatch )
         {
             // Local to Global index and arrays initialization  
             id_L = mesh.boundaryMesh()[iPatch].faceCells()[ii];      
-            ia   = mesh.boundaryMesh()[iPatch].whichFace(ii);
+            ia   = mesh.boundaryMesh()[iPatch].start()+ii;
             is   = CAE3DbuildA2S( &mesh, ia, &xx_s_v, &id_A_s, &id_B_s, &id_C_s );
             id_a2s[ii]      = is;
             id_bodyFace[ii] = ia;
@@ -340,7 +340,7 @@ if ( testInterface == 1 )
             {
                 // Local to Global index and arrays initialization  
                 id_L = mesh.boundaryMesh()[iPatch].faceCells()[ii];      
-                ia   = mesh.boundaryMesh()[iPatch].whichFace(ii);
+                ia   = mesh.boundaryMesh()[iPatch].start()+ii;
                 is   = id_a2s[ii];
 
                 // Print on file
