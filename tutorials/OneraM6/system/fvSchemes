@@ -1,0 +1,84 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.4.1                                 |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+// FoamX Case Dictionary.
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "";
+    case            "";
+    instance        "";
+    local           "";
+
+    class           dictionary;
+    object          fvSchemes;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+AeroFoamSchemes
+{
+//..............................Time integration
+    timeScheme           RK2;
+    CourantMax           0.0;
+    CourantSteps         25;
+//..............................Space integration
+    flowType             Euler;
+    MonotoneFlux         Roe;
+    HighResolutionFlux   LW;
+    fluxLimiter          VL;
+    entropyFix           HH2;
+//..............................Boundary conditions 
+    extrapolateBC        1; 
+//..............................Residual evaluation
+    residualNorm         L1;  
+    minResidual          -1;
+//..............................Extended cells connectivity
+    loadConnectivity     1;
+    adaptiveConnectivity 0;
+    testMesh             0;
+//..............................Check for errors
+    testInput            1;
+}
+
+
+ddtSchemes
+{
+    default         Euler;
+}
+
+gradSchemes
+{
+    default         Gauss linear;
+}
+
+divSchemes
+{
+    default         none;
+}
+
+laplacianSchemes
+{
+    default         none;
+    laplacian(diffusivity,cellDisplacement) Gauss linear uncorrected;
+}
+
+interpolationSchemes
+{
+    default         linear;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+// ************************************************************************* //
