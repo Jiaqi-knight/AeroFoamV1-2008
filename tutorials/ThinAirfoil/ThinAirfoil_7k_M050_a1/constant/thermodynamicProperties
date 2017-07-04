@@ -1,0 +1,34 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.4.1                                 |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+// FoamX Case Dictionary.
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "/home/elisa/OpenFOAM/elisa-1.4.1/run/tutorials/rhoSonicFoam";
+    case            "airfoil";
+    instance        "constant";
+    local           "";
+
+    class           dictionary;
+    object          thermodynamicProperties;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+Cv              Cv [0 2 -2 -1 0 0 0] 717.625;
+
+R               R [0 2 -2 -1 0 0 0] 287.05;
+
+Pr              Pr [0 0 0 0 0 0 0] 0.72;
+
+
+// ************************************************************************* //
