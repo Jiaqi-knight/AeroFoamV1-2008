@@ -1,0 +1,75 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.3                                   |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version 2.0;
+    format ascii;
+
+    root "/home/Luca/OpenFOAM/Luca-1.3/run/tests/Forwardstep";
+    case "step_central";
+    instance ""constant"";
+    local "polyMesh";
+
+    class polyBoundaryMesh;
+    object boundary;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+6
+(
+inlet
+{
+    type patch;
+    physicalType supersonicInlet;
+    nFaces 50;
+    startFace 9910;
+}
+
+outlet
+{
+    type patch;
+    physicalType extrapolatedOutlet;
+    nFaces 40;
+    startFace 9960;
+}
+
+bottom
+{
+    type symmetryPlane;
+    physicalType symmetryPlane;
+    nFaces 24;
+    startFace 10000;
+}
+
+top
+{
+    type symmetryPlane;
+    physicalType symmetryPlane;
+    nFaces 120;
+    startFace 10024;
+}
+
+obstacle
+{
+    type patch;
+    physicalType slip;
+    nFaces 106;
+    startFace 10144;
+}
+
+defaultFaces
+{
+    type empty;
+    nFaces 10080;
+    startFace 10250;
+}
+)
+
+// ************************************************************************* //

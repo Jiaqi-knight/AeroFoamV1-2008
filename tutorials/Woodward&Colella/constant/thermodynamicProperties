@@ -1,0 +1,36 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.3                                   |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+// FoamX Case Dictionary.
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "/home/Luca/OpenFOAM/Luca-1.3/run/tests/Forwardstep";
+    case            "step_central";
+    instance        "constant";
+    local           "";
+
+    class           dictionary;
+    object          thermodynamicProperties;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+Cv              Cv [0 2 -2 -1 0 0 0] 1.78571;
+
+R               R [0 2 -2 -1 0 0 0] 0.71429;
+
+gamma           gamma [0 0 0 0 0 0 0] 1.4;
+
+Pr              Pr [0 0 0 0 0 0 0] 0.72;
+
+
+// ************************************************************************* //
