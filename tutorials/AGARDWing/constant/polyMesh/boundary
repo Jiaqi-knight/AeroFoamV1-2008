@@ -1,0 +1,53 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.4.1                                 |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version 2.0;
+    format ascii;
+
+    root "/home/elisa/TESI/VALIDAZIONE/Agard_445";
+    case "Agard_OpenFoam";
+    instance "constant";
+    local "polyMesh";
+
+    class polyBoundaryMesh;
+    object boundary;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+3
+(
+
+wing
+{
+    type patch;
+    physicalType transpiration;
+    nFaces 5506;
+    startFace 232014;
+}
+
+far_field
+{
+    type patch;
+    physicalType supersonicInlet;
+    nFaces 1221;
+    startFace 237520;
+}
+
+symmetry
+{
+    type symmetryPlane;
+    physicalType symmetryPlane;
+    nFaces 3165;
+    startFace 238741;
+}
+)
+
+// ************************************************************************* //
