@@ -1,0 +1,48 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.4.1                                 |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version 2.0;
+    format ascii;
+
+    root "/home/giulio/OpenFOAM/giulio-1.4.1/run/PitchingAirfoil";
+    case "NACA64A010";
+    instance "0";
+    local "";
+
+    class volVectorField;
+    object cellDisplacement;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 0 0 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet-outlet
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+    body
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+
+// ************************************************************************* //
