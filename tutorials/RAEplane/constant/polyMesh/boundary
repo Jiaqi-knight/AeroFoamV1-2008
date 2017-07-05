@@ -1,0 +1,108 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.4.1                                 |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version 2.0;
+    format ascii;
+
+    root "/home/elisa/TESI/MESH_GENERATION/GAMBIT_JOU/RAEplane/460k";
+    case "RAEplane460k";
+    instance "constant";
+    local "polyMesh";
+
+    class polyBoundaryMesh;
+    object boundary;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+10
+(
+wingL
+{
+    type patch;
+    physicalType slip;
+    nFaces 22716;
+    startFace 881968;
+}
+
+wingR
+{
+    type patch;
+    physicalType slip;
+    nFaces 22634;
+    startFace 904684;
+}
+
+tail
+{
+    type patch;
+    physicalType slip;
+    nFaces 41;
+    startFace 927318;
+}
+
+fuselage
+{
+    type patch;
+    physicalType slip;
+    nFaces 27653;
+    startFace 927359;
+}
+
+lateralL
+{
+    type patch;
+    physicalType extrapolatedOutlet;
+    nFaces 168;
+    startFace 955012;
+}
+
+lateralR
+{
+    type patch;
+    physicalType extrapolatedOutlet;
+    nFaces 168;
+    startFace 955180;
+}
+
+top
+{
+    type patch;
+    physicalType extrapolatedOutlet;
+    nFaces 166;
+    startFace 955348;
+}
+
+outlet
+{
+    type patch;
+    physicalType extrapolatedOutlet;
+    nFaces 150;
+    startFace 955514;
+}
+
+bottom
+{
+    type patch;
+    physicalType extrapolatedOutlet;
+    nFaces 166;
+    startFace 955664;
+}
+
+inlet
+{
+    type patch;
+    physicalType supersonicInlet;
+    nFaces 150;
+    startFace 955830;
+}
+)
+
+// ************************************************************************* //
