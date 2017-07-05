@@ -1,0 +1,127 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.4.1                                 |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+// FoamX Case Dictionary.
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "";
+    case            "";
+    instance        "";
+    local           "";
+
+    class           dictionary;
+    object          fvSchemes;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+AeroFoamSchemes
+{
+//............................Time integration
+    timeScheme           RK2;
+    CourantMax           0.0;
+    CourantSteps         25;
+//............................Space integration
+    flowType             Euler;
+    MonotoneFlux         Roe;
+    HighResolutionFlux   LW;
+    fluxLimiter          VL;
+    entropyFix           HH2;
+//............................Boundary conditions evaluation
+    extrapolateBC        1;    
+//............................Residual evaluation
+    residualNorm         L1;  
+    minResidual          -1;
+//............................Extended cells connectivity 
+    loadConnectivity     0;
+    adaptiveConnectivity 1;
+    testMesh             0;
+//............................Check for errors
+    testInput            1;  
+}
+
+CAE2DToolbox
+{
+//............................Reference
+    referenceFrame  body;
+    Cref            1.4722;
+    Lref            0.7361;
+    Xref.x()        0.3680; // 25%c
+    Xref.y()        0.0;
+    Xhinge.x()      1.1041; // 75%c
+    Xhinge.y()      0.0;
+//............................SolutionType 
+    solutionType    3;
+//............................Plunging of EA (h)
+    Mov_h           0;
+    A0_h            0.0;
+    A1_h            0.0;
+    f_h             0.0;
+    tau_h           0.0;
+//............................Pitching around EA (a)
+    Mov_a           0;
+    A0_a            0.0;
+    A1_a            0.0;
+    f_a             0.0;
+    tau_a           0.0;
+//............................Aileron deflection around hinge axis (d)
+    Mov_d           0;
+    A0_d            0.0;
+    A1_d            0.0;
+    f_d             0.0;
+    tau_d           0.0;
+//............................Free motion (h, a) parameters ODEs 2 d.o.f.
+    m               1.0;
+    d_AECG          0.5;
+    I_CG            1.0;
+    K_hh            1.0;
+    K_aa            1.0;  
+//............................Free motion (d) parameters ODE 1 d.o.f.
+    I_dd            0.55363;
+    C_dd            0.0;
+    K_dd            0.0;
+    d_max           0.5236;
+}
+
+ddtSchemes
+{
+    default         Euler;
+}
+
+gradSchemes
+{
+    default         Gauss linear;
+}
+
+divSchemes
+{
+    default         none;
+}
+
+laplacianSchemes
+{
+    default         none;
+    laplacian(diffusivity,cellDisplacement) Gauss linear uncorrected;
+}
+
+
+interpolationSchemes
+{
+    default         linear;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+// ************************************************************************* //
