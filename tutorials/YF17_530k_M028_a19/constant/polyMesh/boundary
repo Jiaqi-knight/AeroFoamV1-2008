@@ -1,0 +1,141 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.4.1                                 |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version 2.0;
+    format ascii;
+
+    root "/home/giulio/Polimi/TESI/MESH";
+    case "yf17";
+    instance "constant";
+    local "polyMesh";
+
+    class polyBoundaryMesh;
+    object boundary;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+14
+(
+airduct
+{
+    type patch;
+    physicalType supersonicInlet;
+    nFaces 27;
+    startFace 1044002;
+}
+
+engine
+{
+    type patch;
+    physicalType supersonicInlet;
+    nFaces 36;
+    startFace 1044029;
+}
+
+airductramp
+{
+    type patch;
+    physicalType slip;
+    nFaces 79;
+    startFace 1044065;
+}
+
+outflow
+{
+    type patch;
+    physicalType Riemann;
+    nFaces 1216;
+    startFace 1044144;
+}
+
+bottom
+{
+    type patch;
+    physicalType Riemann;
+    nFaces 1216;
+    startFace 1045360;
+}
+
+top
+{
+    type patch;
+    physicalType Riemann;
+    nFaces 1236;
+    startFace 1046576;
+}
+
+inflow
+{
+    type patch;
+    physicalType Riemann;
+    nFaces 1236;
+    startFace 1047812;
+}
+
+lex
+{
+    type patch;
+    physicalType slip;
+    nFaces 1249;
+    startFace 1049048;
+}
+
+vtail
+{
+    type patch;
+    physicalType slip;
+    nFaces 2274;
+    startFace 1050297;
+}
+
+htail
+{
+    type patch;
+    physicalType slip;
+    nFaces 2302;
+    startFace 1052571;
+}
+
+lateral
+{
+    type patch;
+    physicalType Riemann;
+    nFaces 2498;
+    startFace 1054873;
+}
+
+wing
+{
+    type patch;
+    physicalType slip;
+    nFaces 3267;
+    startFace 1057371;
+}
+
+fuselage
+{
+    type patch;
+    physicalType slip;
+    nFaces 3343;
+    startFace 1060638;
+}
+
+symmetry
+{
+    type symmetryPlane;
+    physicalType symmetryPlane;
+    nFaces 7677;
+    startFace 1063981;
+}
+
+)
+
+// ************************************************************************* //

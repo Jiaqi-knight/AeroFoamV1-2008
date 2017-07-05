@@ -1,0 +1,113 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.4.1                                 |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+// Field Dictionary
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "";
+    case            "";
+    instance        "";
+    local           "";
+
+    class           volScalarField;
+    object          p;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 46040;
+
+boundaryField
+{
+    airduct
+    {
+        type            fixedValue;
+        value           uniform 47485;
+    }
+
+    engine
+    {
+        type            fixedValue;
+        value           uniform 32429;
+    }
+
+    airductramp
+    {
+        type            slip;
+    }
+
+    outflow
+    {
+        type            fixedValue;
+        value           uniform 46040;
+    }
+
+    bottom
+    {
+        type            fixedValue;
+        value           uniform 46040;
+    }
+
+    top
+    {
+        type            fixedValue;
+        value           uniform 46040;
+    }
+
+    inflow
+    {
+        type            fixedValue;
+        value           uniform 46040;
+    }
+
+    lex
+    {
+        type            slip;
+    }
+
+    vtail
+    {
+        type            slip;
+    }
+
+    htail
+    {
+        type            slip;
+    }
+
+    lateral
+    {
+        type            fixedValue;
+        value           uniform 46040;
+    }
+
+    wing
+    {
+        type            slip;
+    }
+
+    fuselage
+    {
+        type            slip;
+    }
+
+    symmetry
+    {
+        type            symmetryPlane;
+    }
+}
+
+
+// ************************************************************************* //

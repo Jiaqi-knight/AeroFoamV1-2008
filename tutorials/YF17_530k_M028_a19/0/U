@@ -1,0 +1,113 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.4.1                                 |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+// Field Dictionary
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "";
+    case            "";
+    instance        "";
+    local           "";
+
+    class           volVectorField;
+    object          U;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (83.37145 0 29.35972);
+
+boundaryField
+{
+airduct
+    {
+        type            fixedValue;
+        value           uniform (58.25 0 0);
+    }
+
+    engine
+    {
+        type            fixedValue;
+        value           uniform (307.13 0 0);
+    }
+
+    airductramp
+    {
+        type            slip;
+    }
+
+    outflow
+    {
+        type            fixedValue;
+        value           uniform (83.37145 0 29.35972);
+    }
+
+    bottom
+    {
+        type            fixedValue;
+        value           uniform (83.37145 0 29.35972);
+    }
+
+    top
+    {
+        type            fixedValue;
+        value           uniform (83.37145 0 29.35972);
+    }
+
+    inflow
+    {
+        type            fixedValue;
+        value           uniform (83.37145 0 29.35972);
+    }
+
+    lex
+    {
+        type            slip;
+    }
+
+    vtail
+    {
+        type            slip;
+    }
+
+    htail
+    {
+        type            slip;
+    }
+
+    lateral
+    {
+        type            fixedValue;
+        value           uniform (83.37145 0 29.35972);
+    }
+
+    wing
+    {
+        type            slip;
+    }
+
+    fuselage
+    {
+        type            slip;
+    }
+
+    symmetry
+    {
+        type            symmetryPlane;
+    }
+}
+
+
+// ************************************************************************* //
