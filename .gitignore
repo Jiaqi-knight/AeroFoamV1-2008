@@ -82,3 +82,17 @@ doc/Doxygen/DTAGS
 
 # Ignore the test directory
 /tutorialsTest
+
+
+# Ignore case generated files
+a.foam
+Fig/
+Log/
+Data/
+log
+processor*
+[0-9]*
+[0-9]*.[0-9]*
+!0
+!0.org
+
